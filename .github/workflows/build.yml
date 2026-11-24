@@ -24,6 +24,9 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: write
+
 jobs:
   lint:
     name: Lint
@@ -54,7 +57,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [anoncreds-windows-latest, anoncreds-ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
 
@@ -87,12 +90,12 @@ jobs:
       matrix:
         include:
           - architecture: linux-aarch64
-            os: anoncreds-ubuntu-latest
+            os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             lib: libanoncreds.so
             use_cross: true
           - architecture: linux-x86_64
-            os: anoncreds-ubuntu-latest
+            os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             lib: libanoncreds.so
             use_cross: true
@@ -109,7 +112,7 @@ jobs:
             target: darwin-universal
             lib: libanoncreds.dylib
           - architecture: windows-x86_64
-            os: anoncreds-windows-latest
+            os: windows-latest
             arch: windows-x86_64
             target: x86_64-pc-windows-msvc
             lib: anoncreds.dll
@@ -202,16 +205,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - runner: anoncreds-ubuntu-latest
+          - runner: ubuntu-latest
             architecture: linux-aarch64
             plat-name: manylinux2014_aarch64
-          - runner: anoncreds-ubuntu-latest
+          - runner: ubuntu-latest
             architecture: linux-x86_64
             plat-name: manylinux2014_x86_64
           - runner: macos-latest
             architecture: darwin-universal
             plat-name: macosx_10_9_universal2
-          - runner: anoncreds-windows-latest
+          - runner: windows-latest
             architecture: windows-x86_64
             plat-name: win_amd64
 
@@ -271,7 +274,7 @@ jobs:
   build-android-libraries:
     name: Build Android Libraries
 
-    runs-on: anoncreds-ubuntu-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -312,7 +315,7 @@ jobs:
 
   create-android-library:
     name: Create android libraries
-    runs-on: anoncreds-ubuntu-latest
+    runs-on: ubuntu-latest
     needs: build-android-libraries
     if: |
       (github.event_name == 'release' ||
@@ -410,7 +413,7 @@ jobs:
 
   create-ios-android-release-asset:
     name: Create iOS and Android Release Assets
-    runs-on: anoncreds-ubuntu-latest
+    runs-on: ubuntu-latest
     needs:
       - create-ios-xcframework
       - create-android-library
